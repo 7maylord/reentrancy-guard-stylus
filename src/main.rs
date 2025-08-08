@@ -1,10 +1,11 @@
-#![cfg_attr(not(any(test, feature = "export-abi")), no_main)]
+//! Binary entry point for the reentrancy-guard-stylus project
+//! 
+//! This file serves as the main entry point when the contract is compiled
+//! as a binary for deployment with Stylus.
 
-#[cfg(not(any(test, feature = "export-abi")))]
-#[no_mangle]
-pub extern "C" fn main() {}
+#![cfg_attr(not(feature = "export-abi"), no_main)]
 
-#[cfg(feature = "export-abi")]
-fn main() {
-    stylus_hello_world::print_from_args();
-}
+use reentrancy_guard_stylus::VaultContract;
+
+// Export the contract for ABI generation
+stylus_sdk::entrypoint!(VaultContract);
